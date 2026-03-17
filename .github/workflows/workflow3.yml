@@ -1,0 +1,29 @@
+name: Workflow of exercise 3
+run-name: Workflow3
+
+on:
+    push: 
+        branches: [main]
+    pull_request:
+        branches: 
+            - main
+    workflow_dispatch:
+        inputs:
+            secret:
+                type: string
+
+
+env:
+    my_var: "hello"
+    sec: ${{ secrets.MY_SECRET }} 
+
+jobs:
+    ubuntu-job:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "${{ env.my_var }}"
+            - run: echo "${ my_var }"
+            - run: echo "${{ github.action }}"
+            - name: "check secret"
+              if:  env.sec  == inputs.secret
+              run: echo "Correct"
